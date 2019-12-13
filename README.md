@@ -1,45 +1,41 @@
-**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
+## Amigo Secreto Python
 
-When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
+Este repositorio consta de 2 secciones:
 
-*We recommend that you open this README in another tab as you perform the tasks below. You can [watch our video](https://youtu.be/0ocf7u76WSo) for a full demo of all the steps in this tutorial. Open the video in a new tab to avoid leaving Bitbucket.*
+1. Sorteo del amigo secreto.
+2. Notificación a los participantes.
 
----
+** Sorteo del Amigo Secreto **
 
-## Edit a file
+El único archivo de esta sección es *secret_friend.py* y contiene todo lo necesario para generar el sorteo.
+El procedimiento de uso es:
 
-You’ll start by editing this README file to learn how to edit a file in Bitbucket.
+1. Indicar cantidad de jugadores
+2. Indicar alias de cada jugador
+3. Indicar restricciones según indica el programa
+4. Se codifican los datos indicados en base64
+5. Se asigna un número a cada jugador
+6. Se genera el total de combinaciones posibles excluyendo pares (i,i)
+7. El listado de combinaciones posibles pasa de números a alias.
+8. Se aplica el listado de restricciones a las combinaciones posibles.
+9. Lanzamiento de la ruleta
+10. Antes de entregar un resultado, se verifica que se cumplan los requisitos y que en los cambios no surjan duplicados
+11. Se exporta el resultado codificado en forma de tuplas numéricas
 
-1. Click **Source** on the left side.
-2. Click the README.md link from the list of files.
-3. Click the **Edit** button.
-4. Delete the following text: *Delete this line to make a change to the README from Bitbucket.*
-5. After making your change, click **Commit** and then **Commit** again in the dialog. The commit page will open and you’ll see the change you just made.
-6. Go back to the **Source** page.
+Cabe destacar que el sorteo considera que quien ejecuta el programa es un jugador, por eso se codifica la información.
+Por otro lado, el nivel de seguridad es bajo, por ende, si se desea descubrir el detalle de amigos secretos, basta revisar dónde decodificar.
 
----
+*Como idea a futuro, es posible indicar el nombre real de un jugador y un alias para que no sea necesario hacer un archivo aparte con esta información*
 
-## Create a file
+** Notificación a los participantes **
 
-Next, you’ll add a new file to this repository.
+Se utiliza la API de Gmail para enviar correos electrónicos automáticamente. 
+Para más información, revisar el link oficial (puede contener actualizaciones) de [API Gmail](https://developers.google.com/gmail/api).
 
-1. Click the **New file** button at the top of the **Source** page.
-2. Give the file a filename of **contributors.txt**.
-3. Enter your name in the empty file space.
-4. Click **Commit** and then **Commit** again in the dialog.
-5. Go back to the **Source** page.
+Para esto se cuenta con los archivos *quickstart.py*, *gmail_api.py* y *mails.py*. Estas se encargan de obtener las credenciales para la API, proveer de las funciones necesarias y enviar los correos necesarios, respectivamente.
+Para lo último se tiene considerado lo siguiente:
 
-Before you move on, go ahead and explore the repository. You've already seen the **Source** page, but check out the **Commits**, **Branches**, and **Settings** pages.
-
----
-
-## Clone a repository
-
-Use these steps to clone from SourceTree, our client for using the repository command-line free. Cloning allows you to work on your files locally. If you don't yet have SourceTree, [download and install first](https://www.sourcetreeapp.com/). If you prefer to clone from the command line, see [Clone a repository](https://confluence.atlassian.com/x/4whODQ).
-
-1. You’ll see the clone button under the **Source** heading. Click that button.
-2. Now click **Check out in SourceTree**. You may need to create a SourceTree account or log in.
-3. When you see the **Clone New** dialog in SourceTree, update the destination path and name if you’d like to and then click **Clone**.
-4. Open the directory you just created to see your repository’s files.
-
-Now that you're more familiar with your Bitbucket repository, go ahead and add a new file locally. You can [push your change back to Bitbucket with SourceTree](https://confluence.atlassian.com/x/iqyBMg), or you can [add, commit,](https://confluence.atlassian.com/x/8QhODQ) and [push from the command line](https://confluence.atlassian.com/x/NQ0zDQ).
+- Existe un archivo *mensaje.txt* con el texto del correo electrónico.
+- Existe un archivo *players.csv* con la información de los participantes.
+- Existe un archivo *result.csv* con el resultado obtenido en el sorteo de amigo secreto.
+- Existe un archivo *stgo0.csv* con la información (nombre y correo) de cada participante.
