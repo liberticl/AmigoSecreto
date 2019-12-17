@@ -1,0 +1,16 @@
+Te doy la bienvenida a la nueva aplicación de Amigo Secreto creada desde cero por mi!
+
+Lo primero que quiero comentar es que luego de varias horas de desarrollo, he logrado una aplicación entretenida que espero cumpla todas nuestras espectativas. Los puntos importantes son:
+
+- La ruleta se gira sólo una vez para obtener los resultados.
+- Los resultados no se guardan en forma legible. Todo es codificado y descifrado por el programa.
+- Se incluyeron las siguientes restricciones:
+      Sebastian no le debe regalar a Daniela L.
+      Daniela L no le debe regalar a Isabel.
+      Isabel no le debe regalar a Leonardo.
+      Daniela V no le debe regalar a Sebastian.
+      Daniela L no le debe regalar a Leonardo
+      Elisa no le debe regalar a Sebastian
+      Isabel no le debe regalar a Francisco
+      Daniela L no le debe regalar a Sebastian (sipo, entre hermanos no vale)
+      Dani
