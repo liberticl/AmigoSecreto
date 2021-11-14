@@ -2,3 +2,12 @@
 *.json
 *.pickle
 *.py~
+
+stgo*
+
+bin
+lib
+include
+lib64
+pyvenv.cfg
+__pycache__

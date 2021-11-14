@@ -16,7 +16,7 @@ from gmail_api import *
 
 ####################### Getting Info ##############################
 
-real_names = {"ñija":"Daniela Valencia","eli":"Elisa Santibañez","dani":"Daniela Lizama","tania":"Tania Orellana","bryan":"Bryan Salazar","isa":"Isabel Contreras","seba":"Sebastián Lizama","leo":"Leonardo Escobar","yo":"Francisco Vergara"}
+real_names = {"ñija":"Daniela Valencia","eli":"Elisa Santibañez","dani":"Daniela Lizama","tania":"Tania Orellana","isa":"Isabel Contreras","seba":"Sebastián Lizama","leo":"Leonardo Escobar","yo":"Francisco Vergara"}
 
 # Importa los jugadores con su respectivo numero
 # Notar que tambien corrige errores de exportación en formato 'byte'
@@ -105,16 +105,16 @@ def final_result(real_names,players_dict,result):
 ################################## MAIN CODE ###################################
 
 # Obteniendo datos de jugadores
-players = import_dict("players.csv")
+players = import_dict("stgo2020/players.csv")
 players_dict = decode_dict(players)
 
 # Obteniendo datos de resultados
-result = import_tuple("result.csv")
+result = import_tuple("stgo2020/result.csv")
 result = final_result(real_names,players_dict,result)
 
 # Obteniendo correos electrónicos
-db = get_database('stgo0.csv')
-msje = open('mensaje.txt')
+db = get_database('stgo2020/stgo0.csv')
+msje = open('stgo2020/mensaje.txt')
 
 txt = ''
 for line in msje:
@@ -122,14 +122,14 @@ for line in msje:
 
 msje.close()
 
-n = 0
+#n = 0
 for name,mail in db.items():
-	body = 'Hola '+one_word(str(name))+':\n\n'+txt+result[name]
-	testMessage = create_message('valpotech@gmail.com', mail, 'Amigo Secreto 2020', body)
+	body = 'Hola '+one_word(str(name))+':\n\n'+txt+result[name].upper()
+	testMessage = create_message('francisco@liberti.cl', mail, 'Amigo Secreto 2020', body)
 	testSend = send_message(service,'me', testMessage)
-	n += 1
-	print("Mensaje enviado")
-	sleep(3)
+	#n += 1
+	print("Mensaje enviado a " + name)
+#	sleep(1)
 
 #print "Se han intentado enviar "str(n)" correos electrónicos con éxito"
 

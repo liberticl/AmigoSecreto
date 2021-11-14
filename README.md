@@ -2,8 +2,8 @@
 
 Este repositorio consta de 2 secciones:
 
-1. Sorteo del amigo secreto.
-2. Notificación a los participantes.
+1. Sorteo del amigo secreto (python3).
+2. Notificación a los participantes (python2).
 
 ** Sorteo del Amigo Secreto **
 

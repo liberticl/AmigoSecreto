@@ -188,13 +188,13 @@ def get_restrictions(n,players_names):
 ####################### Output Functions ###########################
 
 def export_dict(dict_to_exp):
-	to_export = open("players.csv","w")
+	to_export = open("stgo2020/players.csv","w")
 	for num,name in players_dict.items():
 		to_export.write(str(num)+","+str(name)+"\n")
 	to_export.close()	
 
 def export_tuple(to_exp):
-	to_export = open("result.csv","w")
+	to_export = open("stgo2020/result.csv","w")
 	for name,secret in to_exp:
 		to_export.write(str(name)+","+str(secret)+"\n")
 	to_export.close()	
