@@ -136,36 +136,31 @@ def get_players_names(players_data):
 	return players_data["NOMBRE_PARTICIPANTE"].values.tolist()
 
 # Solicitud de restricciones. 
-def get_restrictions(n,players_names):
-	restriction_names = []
-	rest_number = 0
+def get_restrictions(players_data):
+	rest = list()
+	players = get_players_names(players_data)
+
+	# Generando tuplas de restricciones
+	for i in players_data.index:
+		try:
+			this_rest = players_data.loc[i,"RESTRICCIONES_DE_REGALO"].split(',')
+			for restriction in this_rest:
+				if(restriction not in players):
+					print("Una de las restricciones asociadas a",players_data.loc[i,"NOMBRE_PARTICIPANTE"],"no existe en la lista de jugadores!")
+					sys.exit(-1)
+				rest.append((players_data.loc[i,"NOMBRE_PARTICIPANTE"],restriction))
+		except AttributeError:
+			pass
+
+	# Verificación de cantidad de restricciones matemáticamente posibles
+	rest_number = len(rest)
 	max_rest = n**2 - n - 1 #Cantidad de combinaciones menos las de tipo (i,i). Queda al menos una por jugador
-	while(True):
-		if(rest_number >= max_rest):
-			print("No se pueden agregar más restricciones por limitaciones matemáticas!\n")
-			break
-		rest = input("Ingrese una restricción: ")
-		if(rest == "."):
-			break
-		if("," in rest):
-			splitted = rest.split(",")
-			if(len(splitted) != 2):
-				print("Ingrese de nuevo la restricción, con el formato correcto.\n")
-				continue
-			elif(splitted[0] not in players_names or splitted[1] not in players_names):
-				print("Ingrese de nuevo la restricción, uno de los amigos no está en el listado.\n")
-				continue
-			else:
-				pair = (splitted[0],splitted[1])
-				if(pair not in restriction_names):
-					restriction_names.append(pair)
-					rest_number += 1
-				else:
-					print("Esta restricción ya fue ingresada.\n")
-		else:
-			print("Ingrese de nuevo la restricción, con el formato correcto.\n")
-			continue
-	return restriction_names
+
+	if(rest_number >= max_rest):
+		print("No se pueden agregar más restricciones por limitaciones matemáticas!\n")
+		sys.exit(-1)
+
+	return rest
 
 ####################### Input Functions ###########################
 
@@ -242,9 +237,7 @@ def rest_to_number(players,rest_list):
 players_info = get_players_data()
 n = len(players_info)
 players_names = get_players_names(players_info)
-print(players_names)
-sys.exit()
-restriction_names = get_restrictions(n,players_names)
+restriction_names = get_restrictions(players_info)
 
 # Codificación de datos
 players_encoded = names_encode(players_names)
