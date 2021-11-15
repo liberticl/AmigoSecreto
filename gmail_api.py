@@ -70,3 +70,10 @@ def create_message(sender, to, subject, message_text):
   message['subject'] = subject
   return {'raw': base64.urlsafe_b64encode(message.as_string().encode()).decode()}
 
+def delete_message(service,user_id,message_id):
+    try:
+        message = (service.users().messages().delete(userId=user_id, id=message_id).execute())
+        print('Deleted ID: %s' % message_id)
+        return message_id
+    except errors.HttpError as error:
+        print('An error occurred: %s' % error)
