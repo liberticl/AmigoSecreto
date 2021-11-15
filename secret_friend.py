@@ -4,6 +4,7 @@
 from random import randint,randrange # Para  sortear el amigo secreto
 from math import factorial # Para condicionar cantidad de restricciones (básico)
 import base64
+import pandas as pd
 
 ##############################################################################################
 ##	La finalidad de este código es proveer las funciones necesarias para					##
@@ -118,20 +119,18 @@ def reorder(items):
 
 ####################### Input Functions ###########################
 
-# Se pide la cantidad de jugadores. Sólo pueden ser números enteros mayor que 2
-def get_players_number():
-	flag = False
-	while(not flag):
-		n = input("Ingrese número de jugadores: ")
-		try:
-			n = int(n)
-			if(n > 2):
-				flag = True
-			else:
-				print("El número debe ser mayor que 2.\n")
-		except ValueError:
-			print("Favor ingresar un número entero mayor que 2.\n")
-	return n
+# Se lee el archivo con los datos de los jugadores y se revisa que sean más de 2.
+def get_players_data():
+	data = pd.read_csv('stgo2021/stgo0_test.csv',encoding='utf-8',low_memory=False)
+	try:
+		n = len(data)
+		if(n > 2):
+			flag = True
+		else:
+			print("El número debe ser mayor que 2.\n")
+	except ValueError:
+		print("Favor ingresar más de 2 jugadores en el archivo.\n")
+	return data
 
 # Se solicita el nombre de todos los jugadores. Depende directamente de la cantidad.
 def get_players_names(n):
@@ -188,13 +187,13 @@ def get_restrictions(n,players_names):
 ####################### Output Functions ###########################
 
 def export_dict(dict_to_exp):
-	to_export = open("stgo2020/players.csv","w")
+	to_export = open("stgo2021/players.csv","w")
 	for num,name in players_dict.items():
 		to_export.write(str(num)+","+str(name)+"\n")
 	to_export.close()	
 
 def export_tuple(to_exp):
-	to_export = open("stgo2020/result.csv","w")
+	to_export = open("stgo2021/result.csv","w")
 	for name,secret in to_exp:
 		to_export.write(str(name)+","+str(secret)+"\n")
 	to_export.close()	
@@ -255,7 +254,12 @@ def rest_to_number(players,rest_list):
 ################################## MAIN CODE ###################################
 
 # Obtención de datos
-n = get_players_number()
+import sys
+players_info = get_players_data()
+n = len(players_info)
+print(n)
+print(players_info)
+sys.exit()
 players_names = get_players_names(n)
 restriction_names = get_restrictions(n,players_names)
 
