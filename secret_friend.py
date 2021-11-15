@@ -5,6 +5,7 @@ from random import randint,randrange # Para  sortear el amigo secreto
 from math import factorial # Para condicionar cantidad de restricciones (básico)
 import base64
 import pandas as pd
+import sys
 
 ##############################################################################################
 ##	La finalidad de este código es proveer las funciones necesarias para					##
@@ -122,36 +123,20 @@ def reorder(items):
 # Se lee el archivo con los datos de los jugadores y se revisa que sean más de 2.
 def get_players_data():
 	data = pd.read_csv('stgo2021/stgo0_test.csv',encoding='utf-8',low_memory=False)
-	try:
-		n = len(data)
-		if(n > 2):
-			flag = True
-		else:
-			print("El número debe ser mayor que 2.\n")
-	except ValueError:
-		print("Favor ingresar más de 2 jugadores en el archivo.\n")
+	n = len(data)
+	if(n > 2):
+		flag = True
+	else:
+		print("El número debe ser mayor que 2.\n")
+		sys.exit(-1)
 	return data
 
 # Se solicita el nombre de todos los jugadores. Depende directamente de la cantidad.
-def get_players_names(n):
-	flag = False
-	players = []
-	while(not flag):
-		player_name = input("Ingrese el nombre de un jugador y presione 'Enter': ").lower()
-		if(player_name not in players):
-			players.append(player_name)
-			if(n == len(players)):
-				flag = True
-		else:
-			print("El jugador ingresado ya se encuentra en la lista.\n")
-	return players
+def get_players_names(players_data):
+	return players_data["NOMBRE_PARTICIPANTE"].values.tolist()
 
 # Solicitud de restricciones. 
 def get_restrictions(n,players_names):
-	print("\nIngrese las restricciones considerando el siguiente esquema:")
-	print("'Amigo_1 no le debe regalar a Amigo_2' se escribe como 'Amigo_1,Amigo_2'")
-	print("Para finalizar el ingreso de restricciones, ingrese un punto ('.')\n")
-	
 	restriction_names = []
 	rest_number = 0
 	max_rest = n**2 - n - 1 #Cantidad de combinaciones menos las de tipo (i,i). Queda al menos una por jugador
@@ -254,13 +239,11 @@ def rest_to_number(players,rest_list):
 ################################## MAIN CODE ###################################
 
 # Obtención de datos
-import sys
 players_info = get_players_data()
 n = len(players_info)
-print(n)
-print(players_info)
+players_names = get_players_names(players_info)
+print(players_names)
 sys.exit()
-players_names = get_players_names(n)
 restriction_names = get_restrictions(n,players_names)
 
 # Codificación de datos
