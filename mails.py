@@ -110,8 +110,6 @@ players_dict = decode_dict(players)
 import sys
 result = import_tuple("stgo2021/result.csv")
 result = final_result(real_names,result)
-print(result)
-sys.exit()
 
 # Obteniendo correos electrónicos
 db = get_database('stgo2021/stgo0_test.csv')
@@ -125,6 +123,8 @@ for name,mail in db.items():
 
 		<p style="text-align: center;"><strong>Te recuerdo que la ruleta gira s&oacute;lo una vez y los resultados del juego se guardan en archivos con valores encriptados.&nbsp;</strong></p>
 
+		<p style="text-align: center;">Además, recuerda que definimos un <b>monto máximo de $20.000.-</b> por regalo!</p>
+
 		<p style="text-align: center;"><br>Ahora s&iacute;, a lo importante</p>
 
 		<div style="background-color: #31aac177 ; margin: 0 auto; border-radius: 25px; border: 1px solid skyblue; width: 80%;"> 
@@ -133,18 +133,15 @@ for name,mail in db.items():
 		</div>
 
 		<p style="text-align: center;"><small><br><br><br>Este a&ntilde;o se hicieron modificaciones menores en la aplicaci&oacute;n (nada que modifique el funcionamiento). Y se mejor&oacute; la seguridad, pensando en que me sea m&aacute;s dificil si intento averiguar qui&eacute;n es tu amigo secreto (porque me gusta el webeo nom&aacute;s).</small></p>
-		<p style="text-align: center;"><small style="text-align: center;">Este juego ha sido desarrollado con la tecnolog&iacute;a de</small></p>
-		<p style = "text-align: center;"><img src="https://drive.google.com/uc?export=view&id=1rQgbfjTID6tR0YxEZOcrTdKd3faMZnOX" style="width: 25%;"></p>
+		<p style="text-align: center;"><small style="text-align: center;"><br>Este juego ha sido desarrollado con la tecnolog&iacute;a de</small></p>
+		<p style = "text-align: center;"><a href="https://github.com/liberticl/AmigoSecreto"><img src="https://drive.google.com/uc?export=view&id=1rQgbfjTID6tR0YxEZOcrTdKd3faMZnOX" style="width: 25%;"></a></p>
 		"""
-	#body = 'Hola '+one_word(str(name))+':\n\n'+txt+result[name].upper()
-	testMessage = create_message('francisco@liberti.cl', mail, 'Test', body)
+
+	testMessage = create_message('francisco@liberti.cl', mail, 'Amigo Secreto 2021', body)
 	testSend = send_message(service,'me', testMessage)
 	sleep(1)
 	testDelete = delete_message(service,'me',testSend['id'])
 	print("Mensaje enviado a " + name + " y eliminado de la bandeja de salida.")
-
-#print "Se han intentado enviar "str(n)" correos electrónicos con éxito"
-
 
 ################################## MAIN CODE ###################################
 
