@@ -54,8 +54,8 @@ def get_database(file):
 	database = dict()
 	#print(len(table))
 	for i in range(len(table)):
-		name = dict_one['nombre'][i]
-		mail = dict_one['mail'][i]
+		name = dict_one['NOMBRE_PARTICIPANTE'][i]
+		mail = dict_one['EMAIL_PARTICIPANTE'][i]
 		database[name] = mail
 	#print(len(database))
 	return database
@@ -90,14 +90,12 @@ def decode_dict(encoded_dict):
 ####################### Game Functions ############################
 
 # Traduce todos los diccionarios hasta descifrar el resultado final.
-def final_result(real_names,players_dict,result):
+def final_result(real_names,result):
 	new_dict = {}
 	for n0,n1 in result.items():
-		name = players[int(n0)]
-		new_name = real_names[decode64(name)]
-		secret = players[int(n1)]
-		new_secret = real_names[decode64(secret)]
-		new_dict[new_name] = new_secret
+		name = base64.b64decode(players[int(n0)]).decode('utf-8')
+		secret = base64.b64decode(players[int(n1)]).decode('utf-8')
+		new_dict[name] = secret
 	return new_dict
 
 ####################### Game Functions ############################
@@ -105,31 +103,45 @@ def final_result(real_names,players_dict,result):
 ################################## MAIN CODE ###################################
 
 # Obteniendo datos de jugadores
-players = import_dict("stgo2020/players.csv")
+players = import_dict("stgo2021/players.csv")
 players_dict = decode_dict(players)
 
 # Obteniendo datos de resultados
-result = import_tuple("stgo2020/result.csv")
-result = final_result(real_names,players_dict,result)
+import sys
+result = import_tuple("stgo2021/result.csv")
+result = final_result(real_names,result)
+print(result)
+sys.exit()
 
 # Obteniendo correos electrónicos
-db = get_database('stgo2020/stgo0.csv')
-msje = open('stgo2020/mensaje.txt')
-
-txt = ''
-for line in msje:
-	txt = txt + line	
-
-msje.close()
+db = get_database('stgo2021/stgo0_test.csv')
 
 #n = 0
 for name,mail in db.items():
-	body = 'Hola '+one_word(str(name))+':\n\n'+txt+result[name].upper()
-	testMessage = create_message('francisco@liberti.cl', mail, 'Amigo Secreto 2020', body)
+	body = f"""
+		<h1 style="text-align: center;">Hola {one_word(str(name))}!</h1>
+
+		<p style="text-align: center;">Un a&ntilde;o m&aacute;s utilizamos la aplicaci&oacute;n de Amigo Secreto Virtual que nos acompa&ntilde;a por 3ra vez consecutiva (ya que el papel y la memoria nos fall&oacute; esta vez jajaja).</p>
+
+		<p style="text-align: center;"><strong>Te recuerdo que la ruleta gira s&oacute;lo una vez y los resultados del juego se guardan en archivos con valores encriptados.&nbsp;</strong></p>
+
+		<p style="text-align: center;"><br>Ahora s&iacute;, a lo importante</p>
+
+		<div style="background-color: #31aac177 ; margin: 0 auto; border-radius: 25px; border: 1px solid skyblue; width: 80%;"> 
+		<h4 style="text-align: center;">TU AMIGO SECRETO ES:<br></h4>
+		<h2 style="text-align: center;"><strong>{result[name].upper()}</strong></h2>
+		</div>
+
+		<p style="text-align: center;"><small><br><br><br>Este a&ntilde;o se hicieron modificaciones menores en la aplicaci&oacute;n (nada que modifique el funcionamiento). Y se mejor&oacute; la seguridad, pensando en que me sea m&aacute;s dificil si intento averiguar qui&eacute;n es tu amigo secreto (porque me gusta el webeo nom&aacute;s).</small></p>
+		<p style="text-align: center;"><small style="text-align: center;">Este juego ha sido desarrollado con la tecnolog&iacute;a de</small></p>
+		<p style = "text-align: center;"><img src="https://drive.google.com/uc?export=view&id=1rQgbfjTID6tR0YxEZOcrTdKd3faMZnOX" style="width: 25%;"></p>
+		"""
+	#body = 'Hola '+one_word(str(name))+':\n\n'+txt+result[name].upper()
+	testMessage = create_message('francisco@liberti.cl', mail, 'Test', body)
 	testSend = send_message(service,'me', testMessage)
-	#n += 1
-	print("Mensaje enviado a " + name)
-#	sleep(1)
+	sleep(1)
+	testDelete = delete_message(service,'me',testSend['id'])
+	print("Mensaje enviado a " + name + " y eliminado de la bandeja de salida.")
 
 #print "Se han intentado enviar "str(n)" correos electrónicos con éxito"
 
