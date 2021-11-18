@@ -122,7 +122,7 @@ def reorder(items):
 
 # Se lee el archivo con los datos de los jugadores y se revisa que sean más de 2.
 def get_players_data():
-	data = pd.read_csv('stgo2021/stgo0_test.csv',encoding='utf-8',low_memory=False)
+	data = pd.read_csv('stgo2021/stgo0.csv',encoding='utf-8',low_memory=False)
 	n = len(data)
 	if(n > 2):
 		flag = True

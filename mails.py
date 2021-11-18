@@ -112,7 +112,7 @@ result = import_tuple("stgo2021/result.csv")
 result = final_result(real_names,result)
 
 # Obteniendo correos electrónicos
-db = get_database('stgo2021/stgo0_test.csv')
+db = get_database('stgo2021/stgo0.csv')
 
 #n = 0
 for name,mail in db.items():
