@@ -6,6 +6,7 @@ from math import factorial # Para condicionar cantidad de restricciones (básico
 import base64
 import pandas as pd
 import sys
+import re
 
 ##############################################################################################
 ##	La finalidad de este código es proveer las funciones necesarias para					##
@@ -122,7 +123,7 @@ def reorder(items):
 
 # Se lee el archivo con los datos de los jugadores y se revisa que sean más de 2.
 def get_players_data():
-	data = pd.read_csv('stgo2021/stgo0.csv',encoding='utf-8',low_memory=False)
+	data = pd.read_csv('stgo2022/stgo0.csv',encoding='utf-8',low_memory=False)
 	n = len(data)
 	if(n > 2):
 		flag = True
@@ -143,7 +144,7 @@ def get_restrictions(players_data):
 	# Generando tuplas de restricciones
 	for i in players_data.index:
 		try:
-			this_rest = players_data.loc[i,"RESTRICCIONES_DE_REGALO"].split(',')
+			this_rest = players_data.loc[i,"RESTRICCIONES_DE_REGALO"].split(',').strip()
 			for restriction in this_rest:
 				if(restriction not in players):
 					print("Una de las restricciones asociadas a",players_data.loc[i,"NOMBRE_PARTICIPANTE"],"no existe en la lista de jugadores!")
@@ -167,13 +168,13 @@ def get_restrictions(players_data):
 ####################### Output Functions ###########################
 
 def export_dict(dict_to_exp):
-	to_export = open("stgo2021/players.csv","w")
+	to_export = open("stgo2022/players.csv","w")
 	for num,name in players_dict.items():
 		to_export.write(str(num)+","+str(name)+"\n")
 	to_export.close()	
 
 def export_tuple(to_exp):
-	to_export = open("stgo2021/result.csv","w")
+	to_export = open("stgo2022/result.csv","w")
 	for name,secret in to_exp:
 		to_export.write(str(name)+","+str(secret)+"\n")
 	to_export.close()	

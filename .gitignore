@@ -11,3 +11,4 @@ include
 lib64
 pyvenv.cfg
 __pycache__
+view_result.py

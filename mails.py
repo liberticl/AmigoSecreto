@@ -4,7 +4,9 @@
 import pandas
 import base64
 from time import *
-from gmail_api import *
+
+if __name__ == "__main__":
+	from gmail_api import *
 
 ##############################################################################################
 ##	La finalidad de este código es proveer las funciones necesarias para					##
