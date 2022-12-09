@@ -6,7 +6,6 @@ from math import factorial # Para condicionar cantidad de restricciones (básico
 import base64
 import pandas as pd
 import sys
-import re
 
 ##############################################################################################
 ##	La finalidad de este código es proveer las funciones necesarias para					##
@@ -169,6 +168,7 @@ def get_restrictions(players_data):
 
 def export_dict(dict_to_exp):
 	to_export = open("stgo2022/players.csv","w")
+	to_export.write("ID,BASE64NAME\n")
 	for num,name in players_dict.items():
 		to_export.write(str(num)+","+str(name)+"\n")
 	to_export.close()	
@@ -266,7 +266,16 @@ while(True):
 
 # Resultados
 export_tuple(res)
+mails = pd.read_csv('stgo2022/stgo0.csv')["EMAIL_PARTICIPANTE"].tolist()
+players = pd.read_csv('stgo2022/players.csv')["BASE64NAME"].tolist()
+
 for i in res:
-	print(i)
+	ix,result = i
+	thismail = mails[ix]
+	thisplayer = players[result]
+	print((thismail,thisplayer))
+
+for i in res:
+    print(i)
 
 ################################## MAIN CODE ###################################
