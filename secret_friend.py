@@ -143,7 +143,8 @@ def get_restrictions(players_data):
 	# Generando tuplas de restricciones
 	for i in players_data.index:
 		try:
-			this_rest = players_data.loc[i,"RESTRICCIONES_DE_REGALO"].split(',').strip()
+			this_rest = players_data.loc[i,"RESTRICCIONES_DE_REGALO"].split(',')
+
 			for restriction in this_rest:
 				if(restriction not in players):
 					print("Una de las restricciones asociadas a",players_data.loc[i,"NOMBRE_PARTICIPANTE"],"no existe en la lista de jugadores!")
@@ -267,12 +268,12 @@ while(True):
 # Resultados
 export_tuple(res)
 mails = pd.read_csv('stgo2022/stgo0.csv')["EMAIL_PARTICIPANTE"].tolist()
-players = pd.read_csv('stgo2022/players.csv')["BASE64NAME"].tolist()
+players = pd.read_csv('stgo2022/players.csv')
 
 for i in res:
 	ix,result = i
 	thismail = mails[ix]
-	thisplayer = players[result]
+	thisplayer = players.query(f'ID == {result}')["BASE64NAME"].tolist()[0]
 	print((thismail,thisplayer))
 
 for i in res:
